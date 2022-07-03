@@ -8,7 +8,7 @@ Now that our server is up and running the next step is to connect it to a databa
 
 Before we start let's make sure we have [**postgres**](https://postgresapp.com/downloads.html) installed:
 
-```
+```bash
 psql --version
 ```
 
@@ -16,7 +16,7 @@ psql --version
 
 In this tutorial we will be using **`postgres`** with **`sequelize`**. So let's start by installing them both:
 
-```
+```bash
 npm i pg sequelize
 ```
 
@@ -28,14 +28,14 @@ Then let's create two files, an **`index.js`** file and our first model and call
 
 Let's run the following commands in the terminal:
 
-```
+```bash
 mkdir models
 touch models/index.js models/event.models.js
 ```
 
 Let's first add following code to our **`index.js`** file:
 
-```
+```javascript
 const { Sequelize } = require('sequelize');
 
 const settings = {
@@ -54,7 +54,7 @@ Replace the **`DATABASE`, `USERNAME`, `PASSWORD`** with your own postgres creden
 
 Now let's add the following to **`event.models.js`**:
 
-```
+```javascript
 const sequelize = require(".");
 const { DataTypes } = require("sequelize");
 const { STRING, BOOLEAN, INTEGER } = DataTypes;
@@ -84,7 +84,7 @@ We've just created a model named Events and defined the following schemas:
 
 We should now change the import in our **`event.controllers.js`** file to:
 
-```
+```javascript
 const events = require('../models/events.models');
 ```
 
@@ -97,7 +97,7 @@ The post request takes the request body and creates an object in our postgres da
 - A successful request returns **`'Event Created!'`**,
 - An unsuccessful request returns a status **500 error**.
 
-```
+```javascript
 const postEvent = async ctx => {
     try {
         await Event.create({ ...ctx.request.body });
@@ -129,7 +129,7 @@ In our **`event.controllers.js`** file, let's now update the **`getEvents`** con
 
 We need to update our function to make it an async function and return all the event items stored in our postgres. Post the following code:
 
-```
+```javascript
 const getEvents = async ctx => {
     try {
         const foundEvents = await Event.findAll();
@@ -146,7 +146,7 @@ Let's try a get request to the following endpoint: [**`http://127.0.0.1:8000/eve
 
 If this works correctly you should get the following:
 
-```
+```json
 [
     {
         "id": 1,
