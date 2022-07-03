@@ -12,7 +12,7 @@ Before we start let's make sure we have [**`postgres`**](https://www.postgresql.
 psql --version
 ```
 
-# Setup
+## Setup
 
 In this tutorial we will be using **`postgres`** with **`sequelize`**.
 
