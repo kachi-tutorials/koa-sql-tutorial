@@ -6,7 +6,7 @@ Before you start this part, make sure you have read [**part 1**](https://github.
 
 Now that our server is up and running the next step is to connect it to a database. In this part we will be using a **SQL** (postgres) database.
 
-Before we start let's make sure we have [**postgres**](https://postgresapp.com/downloads.html) installed:
+Before we start let's make sure we have [**postgres**](https://www.postgresql.org/download/) installed:
 
 ```bash
 psql --version
