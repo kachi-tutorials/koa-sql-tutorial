@@ -1,8 +1,12 @@
+# Prerequisite
+
+Before you start this part, make sure you have read [**part 1**](https://github.com/tutorial-point/koa-server-tutorial) of this tutorial series
+
 # KOA SQL Server
 
 Now that our server is up and running the next step is to connect it to a database. In this part we will be using a **SQL** (postgres) database.
 
-Before we start let's make sure we have [postgres](https://postgresapp.com/downloads.html) installed:
+Before we start let's make sure we have [**postgres**](https://postgresapp.com/downloads.html) installed:
 
 ```
 psql --version
@@ -10,7 +14,7 @@ psql --version
 
 # Setup
 
-In this tutorial we will be using sequelize with postgres. So let's start by installing **postgres** and **sequelize**:
+In this tutorial we will be using **`postgres`** with **`sequelize`**. So let's start by installing them both:
 
 ```
 npm i pg sequelize
@@ -18,19 +22,18 @@ npm i pg sequelize
 
 # Models
 
-Once postgres is installed lets create our **models folder**.
+Once postgres is installed lets create our **`models`** folder.
 
-Then let's create two files, an **index.js** file and our first model and called it **event.models.js**.
+Then let's create two files, an **`index.js`** file and our first model and called it **event.models.js**.
 
-Let's run the following commands:
+Let's run the following commands in the terminal:
 
 ```
 mkdir models
-touch models/index.js
-touch models/event.models.js
+touch models/index.js models/event.models.js
 ```
 
-Let's first add following code to our **index.js** file:
+Let's first add following code to our **`index.js`** file:
 
 ```
 const { Sequelize } = require('sequelize');
@@ -47,57 +50,57 @@ module.exports = sequelize;
 
 This file will connect us to our postgres database.
 
-Replace the **'DATABASE', 'USERNAME', 'PASSWORD'** with your own postgres credentials.
+Replace the **`DATABASE`, `USERNAME`, `PASSWORD`** with your own postgres credentials.
 
-Now let's add the following to **event.models.js**:
+Now let's add the following to **`event.models.js`**:
 
 ```
-const sequelize = require('.')
-const { DataTypes } = require('sequelize');
+const sequelize = require(".");
+const { DataTypes } = require("sequelize");
+const { STRING, BOOLEAN, INTEGER } = DataTypes;
 
-const Event = sequelize.define('Events', {
-  name: DataTypes.STRING,
-  adultsOnly: DataTypes.BOOLEAN,
-  attendees: DataTypes.INTEGER,
-  description: DataTypes.STRING,
+const Events = sequelize.define("Events", {
+  name: STRING,
+  adultsOnly: BOOLEAN,
+  attendees: INTEGER,
+  description: STRING,
 });
 
-Event.sync();
+Events.sync();
 
-module.exports = Event
+module.exports = Events;
 ```
 
-So what did we just do? We've just created a model named Events and defined the following schemas:
+### So what did we just do?
 
-1. **Name** - this will be a string representing the name of the event.
-2. **Adults Only** - this will be a boolean field.
-3. **Attendees** - this will be a number representing the number of attendees
-4. **Description** - this will also be a string field.
+We've just created a model named Events and defined the following schemas:
+
+1. **`name`** - this will be a string representing the name of the event.
+2. **`adultsOnly`** - this will be a boolean field.
+3. **`attendees`** - this will be a number representing the number of attendees
+4. **`description`** - this will also be a string field.
 
 ## Update the controllers
 
-We should now change the import in our event.controllers.js file to:
+We should now change the import in our **`event.controllers.js`** file to:
 
 ```
 const events = require('../models/events.models');
 ```
 
-## Post Request
+### Post Request
 
-Let's update the post request in our **event.models.js**
+Let's update the **`postEvent`** controller in our **`event.controllers.js`**
 
 The post request takes the request body and creates an object in our postgres database.
 
-- A successful request returns **'Event Created!'**,
+- A successful request returns **`'Event Created!'`**,
 - An unsuccessful request returns a status **500 error**.
 
 ```
 const postEvent = async ctx => {
     try {
-        const { name, adultsOnly, attendees, description } = ctx.request.body;
-
-        await Event.create({ name, adultsOnly, attendees, description });
-
+        await Event.create({ ...ctx.request.body });
         ctx.body = 'Event Created!'
         ctx.status = 201;
     } catch (err) {
@@ -107,17 +110,24 @@ const postEvent = async ctx => {
 };
 ```
 
-Try posting an item to the following endpoint on postman [**http://127.0.0.1:8000/post_event**](http://127.0.0.1:8000/post_event):
+Try posting the following code this endpoint: [**`http://127.0.0.1:8000/post_event`**](http://127.0.0.1:8000/post_event)
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4ad3881exjy9rxez4zsg.png)
+```json
+[
+  {
+    "name": "test event",
+    "adultsOnly": false,
+    "attendees": 100,
+    "description": "test description"
+  }
+]
+```
 
-Let's move on to the get request!
+### Get Request
 
-## Get Request
+In our **`event.controllers.js`** file, let's now update the **`getEvents`** controller.
 
-On our **event.models.js** file, let's update the **getEvents** controller.
-
-We need to update our function to make it async and return all the event items stored in our postgres.
+We need to update our function to make it an async function and return all the event items stored in our postgres. Post the following code:
 
 ```
 const getEvents = async ctx => {
@@ -132,7 +142,7 @@ const getEvents = async ctx => {
 };
 ```
 
-Let's try a get request to the following endpoint: [**http://127.0.0.1:8000/events_list**](http://127.0.0.1:8000/events_list).
+Let's try a get request to the following endpoint: [**`http://127.0.0.1:8000/events_list`**](http://127.0.0.1:8000/events_list).
 
 If this works correctly you should get the following:
 
@@ -143,11 +153,11 @@ If this works correctly you should get the following:
         "name": "test event",
         "adultsOnly": false,
         "attendees": 100,
-        "description": "test event description",
+        "description": "test description",
         "createdAt": "TIME OF CREATION",
         "updatedAt": "TIME OF CREATION"
     }
 ]
 ```
 
-And that is all!
+And that is all! Thanks for reading!

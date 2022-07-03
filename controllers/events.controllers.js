@@ -13,10 +13,7 @@ const getEvents = async (ctx) => {
 
 const postEvent = async (ctx) => {
   try {
-    const { name, adultsOnly, attendees, description } = ctx.request.body;
-
-    await Events.create({ name, adultsOnly, attendees, description });
-
+    await Events.create({ ...ctx.request.body });
     ctx.body = "Event Created!";
     ctx.status = 201;
   } catch (err) {
