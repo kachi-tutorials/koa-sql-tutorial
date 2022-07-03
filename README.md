@@ -4,7 +4,7 @@ Before you start this part, make sure you have read [**part 1**](https://github.
 
 In this tutorial, we'll be connecting a **`SQL`** (postgres) database to our **`Koa JS`** server.
 
-# Prerequisite
+## Prerequisite
 
 Before we start let's make sure we have [**`postgres`**](https://www.postgresql.org/download/) installed:
 
