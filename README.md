@@ -24,9 +24,7 @@ npm i pg sequelize
 
 ## Adding Models
 
-Once postgres is installed, run the following command:
-
-Let's run the following commands in the terminal:
+Once postgres is installed, let's run the following commands in the terminal:
 
 ```bash
 mkdir models
@@ -45,7 +43,7 @@ const { Sequelize } = require("sequelize");
 
 const settings = {
   host: "localhost",
-  dialect: "postgres",
+  dialect: "postgres"
 };
 
 const sequelize = new Sequelize("DATABASE", "USERNAME", "PASSWORD", settings);
@@ -68,7 +66,7 @@ const Events = sequelize.define("Events", {
   name: STRING,
   adultsOnly: BOOLEAN,
   attendees: INTEGER,
-  description: STRING,
+  description: STRING
 });
 
 Events.sync();
@@ -90,7 +88,7 @@ We've just created a model named **`Events`** and defined the following schemas:
 We should now change the import in our **`events.controllers.js`** file to:
 
 ```javascript
-const Event = require("../models/events.models");
+const Events = require("../models/events.models");
 ```
 
 ### Post Request
